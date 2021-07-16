@@ -53,7 +53,7 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 	filename := handler.Filename
 	currentTime := time.Now()
 
-	CreateJSON(`./guides/`+filename, currentTime.String())
+	CreateJSON(`./guides/`+filename, currentTime.Format("2006-01-02 15:04:05"))
 
 	// Copy the uploaded file to the created file on the filesystem
 	if _, err := io.Copy(f, file); err != nil {
