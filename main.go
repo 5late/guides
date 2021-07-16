@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"time"
 
 	"github.com/rs/cors"
@@ -17,8 +18,6 @@ type videoData struct {
 	Title string `json:"title"`
 	Date  string `json:"date"`
 }
-
-//var templates = template.Must(template.ParseFiles("public/upload.html"))
 
 func displayHTML(w http.ResponseWriter, page string, r *http.Request) {
 	http.ServeFile(w, r, "./public/"+page+".html")
@@ -61,6 +60,12 @@ func uploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	out, err := exec.Command("go run ../elijah/push/main.go").Output()
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	fmt.Println(string(out))
 }
 
 func CreateJSON(vTitle string, vDate string) {
